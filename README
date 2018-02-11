@@ -1,0 +1,21 @@
+Zookeeper+Netty+protosuff+Spring
+
+
+Server:
+	服务器地址注册到Zookeeper
+	存储服务器开放接口对象
+	netty初始化服务（SocketChannel.pipeline()添加编解码过程、处理RPC请求 类-继承ChannelInboundHandlerAdapter）
+
+Client:
+	通过代理Proxy.newProxyInstance(classLoader, new Class[]{class}, new InvocationHandler(){
+		封装请求对象
+		客户端从Zookeeper获取服务器地址
+		netty初始化服务（SocketChannel.pipeline()添加编解码过程、发送RPC请求类-继承SimpleChannelInboundHandler）
+	})
+	
+	
+ChannelOutboundHandlerAdapter 	用法：发送 编码
+ChannelInboundHandlerAdapter	用法：接收 解码
+
+ChannelHandlerContext ctx
+ctx.writeAndFlush(response).addListener(ChannelFutureListener.CLOSE);
